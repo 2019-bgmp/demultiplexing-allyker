@@ -1,0 +1,14 @@
+b. What is a good quality score cutoff for index reads and biological read pairs to utilize
+for sample identification and downstream analysis, respectively?
+
+-Gonna be looser with the reads than with the indexes
+
+
+The first 5 bases on reads always kind of suck and so does the last one so I'm ignoring those
+-Basing my cutoff point for reads on the graphs and what looks good
+Reads cutoff (for bases past the first 5): 36
+
+Index needs to be for each base and not be tolerant of the ones at the beginning being crappy
+-For the index I am setting the cutoff at the average of all the index values
+-Average is 35.419081115932
+Index cutoff (all bases): 35
