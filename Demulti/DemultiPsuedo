@@ -1,0 +1,87 @@
+Demultiplexing algorithm
+
+Input: 4 FASTQ files
+-2 Reverse complimentary indexes, 1 read1, 1 read2 file
+
+Output: 52 FASTQ files
+-1 file for each matched R1 index (24), 1 file for each matching R2 index (24)
+-1 file for unmatched index R1 reads, 1 file for unmatched index R2 reads
+-1 file for unknown/low quality index R1, 1 file for unknown/low quality index R2
+INTO END OF EACH HEADER PUT: index1-index2 for the indexes of the pair
+
+Also return # of matched pairs, # of index-hopped pairs, # of unknown pairs
+
+Test files = TestIndex1, TestIndex2, TestReads1, TestReads2
+For Index files:
+first pair matches
+2nd pair does not match
+3rd pair has N in index in TestIndex2
+4th pair has low quality score in TestIndex2
+
+Procedure:
+-Put each file path into a variable ex: file1 = "/dir/dir/dir/filename"
+--for this 1+2 are indexes, 3+4 are reads
+
+-make unmatched file R1 and R2
+-make unknown/low quality file R1 and R2
+-make counter for unmatched reads
+-make counter for matched reads
+-make counter for unknown/low quality reads
+All counters will be dictionaries with key as index pair and value is # of occurrences
+
+I know we aren't supposed to use code, but this is old stuff:
+def convert_phred(letter):
+    """Converts a single character into a phred score"""
+    ascii = tuple("!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+    return(ascii.index(letter))
+
+def make_index_dir(file with the indexes?):
+  -Set up dictionary with all expected pairs (forward index as key, reverse index as value)
+  -create R1 and R2 file for each index pair
+  return index_dir
+
+-Open up all 4 files
+--store 4 lines from each file as variables
+----File1Head, File1Seq, File1+, File1Score, etc.
+
+def indexSort1(File1Seq, File1Score):
+  -first check File1Seq for N, then check File1Score for low Quality
+  ---put into unknown/low quality if fail
+  return(pass/fail)
+
+do this part only if indexSort1 gives pass
+def indexSort2(File2Seq, File2Score):
+    -first check File2Seq for N, then check File2Score for low Quality
+    ---put into unknown/low quality if fail
+    return(pass/fail)
+
+-append index1-index2 onto the ends of File3Head and File4Head
+
+if either fail append File3Head, File3Seq, File3+, File3Score to lowQualityR1
+and File4Head, File4Seq, File4+, File4Score to lowQualityR2
+-increment unknown/low quality reads counter
+
+do this part only if both pass
+def indexCompare(File1Seq, File2Seq):
+  -compare File1Seq, File2Seq to dictionary File1Seq and value pair
+  return(match/unmatched)
+
+if they match append File3Head, File3Seq, File3+, File3Score to Index1Index2R1
+and File4Head, File4Seq, File4+, File4Score to Index1Index2R2
+-increment matched reads counter
+
+if they are unmatched append File3Head, File3Seq, File3+, File3Score to unmatchedR1
+and File4Head, File4Seq, File4+, File4Score to unmatchedR2
+-increment unmatched reads counter
+
+Repeat everything from def indexSort1 4 lines at a time all the way through the files
+-print out the results from each counter at the end
+
+Based on current test files program should output these files and counter results:
+-1 matchedR1, 1matchedR2
+-1 unmatchedR1, 1 unmatchedR2
+-2 unknown/lowQualityR1, 2 unknown/lowQualityR2
+
+
+
+l
