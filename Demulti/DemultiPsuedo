@@ -1,5 +1,8 @@
 Demultiplexing algorithm
 
+Problem: We are trying to determine level of index swapping and undetermined index pairs before and after quality filtering.
+We are starting by demultiplexing the data.
+
 Input: 4 FASTQ files
 -2 Reverse complimentary indexes, 1 read1, 1 read2 file
 
@@ -32,13 +35,15 @@ All counters will be dictionaries with key as index pair and value is # of occur
 I know we aren't supposed to use code, but this is old stuff:
 def convert_phred(letter):
     """Converts a single character into a phred score"""
-    ascii = tuple("!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
-    return(ascii.index(letter))
+    ascii = ord('letter')-33
+    return(ascii)
+    -ex:convert_phred(!) returns 0
 
 def make_index_dir(file with the indexes?):
   -Set up dictionary with all expected pairs (forward index as key, reverse index as value)
   -create R1 and R2 file for each index pair
   return index_dir
+    -ex:make_index_dir(indexfile.txt) returns index_dir, Index1Index2R1 Index1Index2R2 files for each index pair
 
 -Open up all 4 files
 --store 4 lines from each file as variables
@@ -48,6 +53,7 @@ def indexSort1(File1Seq, File1Score):
   -first check File1Seq for N, then check File1Score for low Quality
   ---put into unknown/low quality if fail
   return(pass/fail)
+
 
 do this part only if indexSort1 gives pass
 def indexSort2(File2Seq, File2Score):

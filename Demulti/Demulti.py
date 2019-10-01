@@ -30,8 +30,8 @@ import gzip
 
 def convert_phred(letter):
     """Converts a single character into a phred score"""
-    ascii = tuple("!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
-    return(ascii.index(letter))
+    ascii = ord('letter')-33
+    return(ascii)
 file="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz"
 
 def populate_array(file):
